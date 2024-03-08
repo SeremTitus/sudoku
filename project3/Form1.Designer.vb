@@ -103,7 +103,7 @@ Partial Class Form1
         TextBox79 = New TextBox()
         TextBox80 = New TextBox()
         TextBox81 = New TextBox()
-        Button1 = New Button()
+        ButtonRestart = New Button()
         BtnOne = New Button()
         BtnTwo = New Button()
         BtnThree = New Button()
@@ -113,6 +113,8 @@ Partial Class Form1
         BtnSeven = New Button()
         BtnEight = New Button()
         BtnNine = New Button()
+        BtnNotes = New Button()
+        Button1 = New Button()
         SuspendLayout()
         ' 
         ' TextBox1
@@ -763,14 +765,14 @@ Partial Class Form1
         TextBox81.Size = New Size(36, 45)
         TextBox81.TabIndex = 80
         ' 
-        ' Button1
+        ' ButtonRestart
         ' 
-        Button1.Location = New Point(567, 439)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(89, 46)
-        Button1.TabIndex = 81
-        Button1.Text = "Reset"
-        Button1.UseVisualStyleBackColor = True
+        ButtonRestart.Location = New Point(567, 439)
+        ButtonRestart.Name = "ButtonRestart"
+        ButtonRestart.Size = New Size(89, 46)
+        ButtonRestart.TabIndex = 81
+        ButtonRestart.Text = "Restart"
+        ButtonRestart.UseVisualStyleBackColor = True
         ' 
         ' BtnOne
         ' 
@@ -871,12 +873,32 @@ Partial Class Form1
         BtnNine.Text = "9"
         BtnNine.UseVisualStyleBackColor = True
         ' 
+        ' BtnNotes
+        ' 
+        BtnNotes.Location = New Point(662, 439)
+        BtnNotes.Name = "BtnNotes"
+        BtnNotes.Size = New Size(75, 44)
+        BtnNotes.TabIndex = 91
+        BtnNotes.Text = "Notes"
+        BtnNotes.UseVisualStyleBackColor = True
+        ' 
+        ' Button1
+        ' 
+        Button1.Location = New Point(743, 439)
+        Button1.Name = "Button1"
+        Button1.Size = New Size(75, 43)
+        Button1.TabIndex = 92
+        Button1.Text = "Undo"
+        Button1.UseVisualStyleBackColor = True
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.AppWorkspace
         ClientSize = New Size(880, 543)
+        Controls.Add(Button1)
+        Controls.Add(BtnNotes)
         Controls.Add(BtnNine)
         Controls.Add(BtnEight)
         Controls.Add(BtnSeven)
@@ -886,7 +908,7 @@ Partial Class Form1
         Controls.Add(BtnThree)
         Controls.Add(BtnTwo)
         Controls.Add(BtnOne)
-        Controls.Add(Button1)
+        Controls.Add(ButtonRestart)
         Controls.Add(TextBox81)
         Controls.Add(TextBox80)
         Controls.Add(TextBox79)
@@ -1055,7 +1077,7 @@ Partial Class Form1
     Friend WithEvents TextBox79 As TextBox
     Friend WithEvents TextBox80 As TextBox
     Friend WithEvents TextBox81 As TextBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents ButtonRestart As Button
     Friend WithEvents BtnOne As Button
     Friend WithEvents BtnTwo As Button
     Friend WithEvents BtnThree As Button
@@ -1065,5 +1087,7 @@ Partial Class Form1
     Friend WithEvents BtnSeven As Button
     Friend WithEvents BtnEight As Button
     Friend WithEvents BtnNine As Button
+    Friend WithEvents BtnNotes As Button
+    Friend WithEvents Button1 As Button
 
 End Class
