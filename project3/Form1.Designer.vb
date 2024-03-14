@@ -117,6 +117,9 @@ Partial Class Form1
         BtnNotes = New Button()
         Timer1 = New Timer(components)
         Label1 = New Label()
+        Label2 = New Label()
+        Label3 = New Label()
+        BtnNew = New Button()
         SuspendLayout()
         ' 
         ' TextBox1
@@ -1012,17 +1015,17 @@ Partial Class Form1
         ' 
         ' ButtonRestart
         ' 
-        ButtonRestart.Location = New Point(784, 658)
+        ButtonRestart.Location = New Point(785, 658)
         ButtonRestart.Margin = New Padding(4, 5, 4, 5)
         ButtonRestart.Name = "ButtonRestart"
-        ButtonRestart.Size = New Size(127, 77)
+        ButtonRestart.Size = New Size(127, 73)
         ButtonRestart.TabIndex = 81
         ButtonRestart.Text = "Restart"
         ButtonRestart.UseVisualStyleBackColor = True
         ' 
         ' BtnOne
         ' 
-        BtnOne.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        BtnOne.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         BtnOne.Location = New Point(791, 196)
         BtnOne.Margin = New Padding(4, 5, 4, 5)
         BtnOne.Name = "BtnOne"
@@ -1034,7 +1037,7 @@ Partial Class Form1
         ' 
         ' BtnTwo
         ' 
-        BtnTwo.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        BtnTwo.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         BtnTwo.Location = New Point(920, 196)
         BtnTwo.Margin = New Padding(4, 5, 4, 5)
         BtnTwo.Name = "BtnTwo"
@@ -1046,7 +1049,7 @@ Partial Class Form1
         ' 
         ' BtnThree
         ' 
-        BtnThree.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        BtnThree.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         BtnThree.Location = New Point(1044, 196)
         BtnThree.Margin = New Padding(4, 5, 4, 5)
         BtnThree.Name = "BtnThree"
@@ -1058,7 +1061,7 @@ Partial Class Form1
         ' 
         ' BtnFour
         ' 
-        BtnFour.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        BtnFour.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         BtnFour.Location = New Point(791, 336)
         BtnFour.Margin = New Padding(4, 5, 4, 5)
         BtnFour.Name = "BtnFour"
@@ -1070,7 +1073,7 @@ Partial Class Form1
         ' 
         ' BtnFive
         ' 
-        BtnFive.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        BtnFive.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         BtnFive.Location = New Point(920, 336)
         BtnFive.Margin = New Padding(4, 5, 4, 5)
         BtnFive.Name = "BtnFive"
@@ -1082,7 +1085,7 @@ Partial Class Form1
         ' 
         ' BtnSix
         ' 
-        BtnSix.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        BtnSix.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         BtnSix.Location = New Point(1044, 336)
         BtnSix.Margin = New Padding(4, 5, 4, 5)
         BtnSix.Name = "BtnSix"
@@ -1094,7 +1097,7 @@ Partial Class Form1
         ' 
         ' BtnSeven
         ' 
-        BtnSeven.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        BtnSeven.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         BtnSeven.Location = New Point(791, 481)
         BtnSeven.Margin = New Padding(4, 5, 4, 5)
         BtnSeven.Name = "BtnSeven"
@@ -1106,7 +1109,7 @@ Partial Class Form1
         ' 
         ' BtnEight
         ' 
-        BtnEight.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        BtnEight.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         BtnEight.Location = New Point(920, 481)
         BtnEight.Margin = New Padding(4, 5, 4, 5)
         BtnEight.Name = "BtnEight"
@@ -1118,7 +1121,7 @@ Partial Class Form1
         ' 
         ' BtnNine
         ' 
-        BtnNine.Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        BtnNine.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         BtnNine.Location = New Point(1044, 481)
         BtnNine.Margin = New Padding(4, 5, 4, 5)
         BtnNine.Name = "BtnNine"
@@ -1149,12 +1152,42 @@ Partial Class Form1
         Label1.Size = New Size(0, 25)
         Label1.TabIndex = 93
         ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(68, 119)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(0, 25)
+        Label2.TabIndex = 94
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Location = New Point(561, 122)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(100, 25)
+        Label3.TabIndex = 95
+        Label3.Text = "Mistakes: 0"
+        ' 
+        ' BtnNew
+        ' 
+        BtnNew.Location = New Point(1044, 658)
+        BtnNew.Margin = New Padding(4, 5, 4, 5)
+        BtnNew.Name = "BtnNew"
+        BtnNew.Size = New Size(107, 73)
+        BtnNew.TabIndex = 96
+        BtnNew.Text = "New"
+        BtnNew.UseVisualStyleBackColor = True
+        ' 
         ' Form1
         ' 
-        AutoScaleDimensions = New SizeF(10.0F, 25.0F)
+        AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.AppWorkspace
         ClientSize = New Size(1257, 905)
+        Controls.Add(BtnNew)
+        Controls.Add(Label3)
+        Controls.Add(Label2)
         Controls.Add(Label1)
         Controls.Add(BtnNotes)
         Controls.Add(BtnNine)
@@ -1349,5 +1382,8 @@ Partial Class Form1
     Friend WithEvents BtnNotes As Button
     Friend WithEvents Timer1 As Timer
     Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents BtnNew As Button
 
 End Class

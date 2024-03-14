@@ -3,6 +3,17 @@
     Public boardDimensions As Point = New Point(3, 3)
     Public board As List(Of List(Of String))
     Public boardholes As List(Of List(Of String))
+    Public Enum SudokuDifficulty
+        Simple = 15
+        Fast = 30
+        Novice = 35
+        Easy = 40
+        Moderate = 45
+        Hard = 50
+        Expert = 60
+        Extreme = 70
+        Diabolical = 81
+    End Enum
 
     Public Sub New(Optional ByVal pBoardDimensions As Point = Nothing)
         If pBoardDimensions = Nothing Then
@@ -42,8 +53,39 @@
             board.Add(New List(Of String)(emptyRow))
         Next
         BoardFill()
-        board_holes(30)
+        board_holes(15)
     End Sub
+
+    Public Sub SetDifficulty(difficulty As SudokuDifficulty)
+        board_holes(CInt(difficulty))
+    End Sub
+
+    Public Sub NewGame(Optional difficulty As SudokuDifficulty = Nothing)
+        If difficulty = Nothing Then
+            difficulty = SudokuDifficulty.Simple
+        End If
+        InitializeBoard()
+        board_holes(CInt(difficulty))
+    End Sub
+
+    Public Function GetDifficultyFromString(ByVal difficultyString As String) As SudokuDifficulty
+        Dim difficultyMapping As New Dictionary(Of String, SudokuDifficulty) From {
+        {"Simple", SudokuDifficulty.Simple},
+        {"Fast", SudokuDifficulty.Fast},
+        {"Novice", SudokuDifficulty.Novice},
+        {"Easy", SudokuDifficulty.Easy},
+        {"Moderate", SudokuDifficulty.Moderate},
+        {"Hard", SudokuDifficulty.Hard},
+        {"Expert", SudokuDifficulty.Expert},
+        {"Extreme", SudokuDifficulty.Extreme},
+        {"Diabolical", SudokuDifficulty.Diabolical}
+    }
+        If difficultyMapping.ContainsKey(difficultyString) Then
+            Return difficultyMapping(difficultyString)
+        Else
+            Return SudokuDifficulty.Simple
+        End If
+    End Function
 
     Private Sub Shuffle(Of T)(ByRef array As T())
         Dim rand As New Random()
@@ -139,12 +181,18 @@
                 holes += 1
             End If
         Next
+        If holes > difficulty + 1 Then
+            boardholes = DeepCopy(board)
+            holes = 0
+        End If
 
         For Each cell As Point In cells
             If holes > difficulty Then
                 Exit For
             End If
-
+            If boardholes(cell.X)(cell.Y) = "-" Then
+                Continue For
+            End If
             Dim initial_value = boardholes(cell.X)(cell.Y)
             boardholes(cell.X)(cell.Y) = "-"
 

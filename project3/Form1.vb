@@ -9,6 +9,7 @@
     Private stopwatch As New Stopwatch()
 
     Dim myBoardGame As New SudokuGenerator()
+    Dim GameEnded As Boolean = False
 
     Public Sub LoadGame()
         CellDisplay = "     " & vbCrLf & "     " & vbCrLf & "     "
@@ -33,6 +34,9 @@
                 End If
             Next
         Next
+
+        GameEnded = False
+        stopwatch.Reset()
         stopwatch.Start()
     End Sub
 
@@ -47,6 +51,13 @@
         For Index As Integer = 1 To 81
             SudokuArray(Index).Tag = Index
         Next
+        Dim newgame As New newGameDialog()
+        newgame.Text = "New Sodoku Game"
+        newgame.StartPosition = FormStartPosition.CenterParent
+        newgame.Label1.Text = "Welcome to Sudoku Solvers' Sanctuary! Let's conquer puzzles!"
+        newgame.ShowDialog()
+        Label2.Text = newgame.ComboBox1.Text
+        myBoardGame.SetDifficulty(myBoardGame.GetDifficultyFromString(newgame.ComboBox1.Text))
         LoadGame()
         HighlightRow()
         HighlightColumn()
@@ -91,7 +102,13 @@
                 SudokuArray(SelectedCell).Text = Notes(SudokuArray(SelectedCell).Text, Value)
             Else
                 SudokuArray(SelectedCell).Font = New Font("Verdana", 20, FontStyle.Bold)
-                SudokuArray(SelectedCell).Text = Value.ToString()
+                SudokuArray(SelectedCell).Text = value.ToString()
+                If SudokuArray(SelectedCell).Text = SudokuAnswer(SelectedCell) Then
+                    SudokuArray(SelectedCell).ForeColor = Color.Green
+                Else
+                    SudokuArray(SelectedCell).ForeColor = Color.Red
+                End If
+                CheckEndGame()
             End If
         End If
     End Sub
@@ -167,6 +184,12 @@
         Else
             SudokuArray(SelectedCell).Font = New Font("Verdana", 20, FontStyle.Bold)
             SudokuArray(SelectedCell).Text = Value.ToString()
+            If SudokuArray(SelectedCell).Text = SudokuAnswer(SelectedCell) Then
+                SudokuArray(SelectedCell).ForeColor = Color.Green
+            Else
+                SudokuArray(SelectedCell).ForeColor = Color.Red
+            End If
+            CheckEndGame()
         End If
     End Sub
 
@@ -211,6 +234,7 @@
     End Function
 
     Private Sub BtnNotes_Click(sender As Object, e As EventArgs) Handles BtnNotes.Click
+
         If NotesOn Then
             BtnNotes.Text = "Notes Off"
             NotesOn = False
@@ -222,5 +246,52 @@
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Label1.Text = String.Format("{0:hh\:mm\:ss}", stopwatch.Elapsed)
+        CheckEndGame()
+    End Sub
+    Private Sub CheckEndGame()
+        Dim mistakes = 0
+        Dim answered = 0
+        Dim Index = 0
+        For row_index As Integer = 0 To 8
+            For column_index As Integer = 0 To 8
+                Index += 1
+                SudokuAnswer(Index) = myBoardGame.board(row_index)(column_index)
+                If SudokuArray(Index).Text = SudokuAnswer(Index) Then
+                    answered += 1
+                ElseIf SudokuArray(Index).Text <> "     " & vbCrLf & "     " & vbCrLf & "     " AndAlso SudokuArray(SelectedCell).Font.Name = "Verdana" Then
+                    mistakes += 1
+                End If
+            Next
+        Next
+        Label3.Text = "Mistakes: " & mistakes.ToString()
+        If GameEnded = True Then
+            Exit Sub
+        End If
+        If answered >= 81 Then
+            stopwatch.Stop()
+            GameEnded = True
+            Dim newgame As New newGameDialog()
+            newgame.Text = "New Sodoku Game"
+            newgame.StartPosition = FormStartPosition.CenterParent
+            newgame.Label1.Text = "Congratulations! You have successfully completed the Sudoku puzzle!"
+            Label2.Text = newgame.ComboBox1.Text
+            newgame.ShowDialog()
+            myBoardGame.NewGame(myBoardGame.GetDifficultyFromString(newgame.ComboBox1.Text))
+            LoadGame()
+        End If
+    End Sub
+
+    Private Sub BtnNew_Click(sender As Object, e As EventArgs) Handles BtnNew.Click
+        stopwatch.Stop()
+        Dim newgame As New newGameDialog()
+        newgame.Text = "New Sodoku Game"
+        newgame.StartPosition = FormStartPosition.CenterParent
+        newgame.Label1.Text = "Try out a new game"
+        Label2.Text = newgame.ComboBox1.Text
+        newgame.ShowDialog()
+        If newgame.setOk.Checked Then
+            myBoardGame.NewGame(myBoardGame.GetDifficultyFromString(newgame.ComboBox1.Text))
+            LoadGame()
+        End If
     End Sub
 End Class
