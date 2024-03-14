@@ -11,6 +11,10 @@
     Dim myBoardGame As New SudokuGenerator()
     Dim GameEnded As Boolean = False
 
+    Dim undoRedoStack As List(Of List(Of String))
+    Dim undoRedoPointer As Integer = 0
+    Dim undoRedolastindex As Integer = -1
+
     Public Sub LoadGame()
         CellDisplay = "     " & vbCrLf & "     " & vbCrLf & "     "
         Dim selectedFirstCell As Boolean = False
@@ -38,6 +42,17 @@
         GameEnded = False
         stopwatch.Reset()
         stopwatch.Start()
+
+        undoRedoStack = New List(Of List(Of String))
+        undoRedoPointer = 0
+        BtnUndo.Enabled = False
+        BtnRedo.Enabled = False
+        If undoRedoPointer > 0 Then
+            BtnUndo.Enabled = True
+        End If
+        If undoRedoPointer < undoRedoStack.Count - 2 Then
+            BtnRedo.Enabled = True
+        End If
     End Sub
 
     Private Sub SetControlArray()
@@ -99,9 +114,11 @@
                     SudokuArray(SelectedCell).Text = "     " & vbCrLf & "     " & vbCrLf & "     "
                 End If
                 SudokuArray(SelectedCell).Font = New Font("Courier New", 6, FontStyle.Regular)
+                UndoRedo_add(SelectedCell, Notes(SudokuArray(SelectedCell).Text, value))
                 SudokuArray(SelectedCell).Text = Notes(SudokuArray(SelectedCell).Text, Value)
             Else
                 SudokuArray(SelectedCell).Font = New Font("Verdana", 20, FontStyle.Bold)
+                UndoRedo_add(SelectedCell, value.ToString())
                 SudokuArray(SelectedCell).Text = value.ToString()
                 If SudokuArray(SelectedCell).Text = SudokuAnswer(SelectedCell) Then
                     SudokuArray(SelectedCell).ForeColor = Color.Green
@@ -162,7 +179,7 @@
 
 
     Private Sub ButtonRestart_Click(sender As Object, e As EventArgs) Handles ButtonRestart.Click
-        For Index As Integer = 1 To 81
+        For Index = 1 To 81
             If SudokuArray(Index).Enabled Then
                 SudokuArray(Index).Text = "" ' Clear the text of the enabled cells
             End If
@@ -180,9 +197,11 @@
                 SudokuArray(SelectedCell).Text = "     " & vbCrLf & "     " & vbCrLf & "     "
             End If
             SudokuArray(SelectedCell).Font = New Font("Courier New", 6, FontStyle.Regular)
+            UndoRedo_add(SelectedCell, Notes(SudokuArray(SelectedCell).Text, Value))
             SudokuArray(SelectedCell).Text = Notes(SudokuArray(SelectedCell).Text, Value)
         Else
             SudokuArray(SelectedCell).Font = New Font("Verdana", 20, FontStyle.Bold)
+            UndoRedo_add(SelectedCell, Value.ToString())
             SudokuArray(SelectedCell).Text = Value.ToString()
             If SudokuArray(SelectedCell).Text = SudokuAnswer(SelectedCell) Then
                 SudokuArray(SelectedCell).ForeColor = Color.Green
@@ -294,4 +313,130 @@
             LoadGame()
         End If
     End Sub
+
+    Private Sub BtnUndo_Click(sender As Object, e As EventArgs) Handles BtnUndo.Click
+        If undoRedoStack Is Nothing OrElse undoRedoPointer > undoRedoStack.Count - 1 OrElse undoRedoPointer <= 0 Then
+            Exit Sub
+        End If
+        undoRedoPointer -= 1
+        Dim oneEntry As List(Of String) = undoRedoStack(undoRedoPointer)
+        SelectedCell = CInt(oneEntry(0))
+        If oneEntry(2) = "True" Then
+            NotesOn = True
+        Else
+            NotesOn = False
+        End If
+        If NotesOn Then
+            If SudokuArray(SelectedCell).Text <> "" AndAlso SudokuArray(SelectedCell).Font.Name = "Verdana" Then
+                SudokuArray(SelectedCell).Text = "     " & vbCrLf & "     " & vbCrLf & "     "
+            End If
+            SudokuArray(SelectedCell).Font = New Font("Courier New", 6, FontStyle.Regular)
+        Else
+            SudokuArray(SelectedCell).Font = New Font("Verdana", 20, FontStyle.Bold)
+
+        End If
+        SudokuArray(SelectedCell).Text = oneEntry(1)
+        If NotesOn = False Then
+            If SudokuArray(SelectedCell).Text = SudokuAnswer(SelectedCell) Then
+                SudokuArray(SelectedCell).ForeColor = Color.Green
+            Else
+                SudokuArray(SelectedCell).ForeColor = Color.Red
+            End If
+        End If
+
+        BtnUndo.Enabled = False
+        BtnRedo.Enabled = False
+        If undoRedoPointer > 0 Then
+            BtnUndo.Enabled = True
+        End If
+        If undoRedoPointer < undoRedoStack.Count - 2 Then
+            BtnRedo.Enabled = True
+        End If
+    End Sub
+
+    Private Sub BtnRedo_Click(sender As Object, e As EventArgs) Handles BtnRedo.Click
+        If undoRedoStack Is Nothing OrElse undoRedoPointer > undoRedoStack.Count - 2 OrElse undoRedoPointer < 0 Then
+            Exit Sub
+        End If
+        undoRedoPointer += 1
+        Dim oneEntry As List(Of String) = undoRedoStack(undoRedoPointer)
+        If oneEntry(2) = "True" Then
+            NotesOn = True
+        Else
+            NotesOn = False
+        End If
+        If NotesOn Then
+            If SudokuArray(SelectedCell).Text <> "" AndAlso SudokuArray(SelectedCell).Font.Name = "Verdana" Then
+                SudokuArray(SelectedCell).Text = "     " & vbCrLf & "     " & vbCrLf & "     "
+            End If
+            SudokuArray(SelectedCell).Font = New Font("Courier New", 6, FontStyle.Regular)
+        Else
+            SudokuArray(SelectedCell).Font = New Font("Verdana", 20, FontStyle.Bold)
+        End If
+        SudokuArray(SelectedCell).Text = oneEntry(1)
+        If NotesOn = False Then
+            If SudokuArray(SelectedCell).Text = SudokuAnswer(SelectedCell) Then
+                SudokuArray(SelectedCell).ForeColor = Color.Green
+            Else
+                SudokuArray(SelectedCell).ForeColor = Color.Red
+            End If
+        End If
+
+        BtnUndo.Enabled = False
+        BtnRedo.Enabled = False
+        If undoRedoPointer > 0 Then
+            BtnUndo.Enabled = True
+        End If
+        If undoRedoPointer < undoRedoStack.Count - 2 Then
+            BtnRedo.Enabled = True
+        End If
+
+    End Sub
+
+    Private Sub UndoRedo_add(index As Integer, new_val As String)
+        If undoRedoStack Is Nothing Then
+            undoRedoStack = New List(Of List(Of String))
+        End If
+
+
+        If undoRedoPointer > 0 AndAlso undoRedoPointer < undoRedoStack.Count Then
+            ' Remove items above the specified index
+            For i As Integer = undoRedoStack.Count - 1 To undoRedoPointer + 1 Step -1
+                undoRedoStack.RemoveAt(i)
+            Next
+        End If
+        If undoRedoStack.Count > 60 Then
+            undoRedoStack.RemoveAt(0)
+        End If
+        Dim old_val As String = SudokuArray(index).Text
+
+        Dim valu_old As New List(Of String)
+        Dim valu_new As New List(Of String)
+        valu_old.Add(index.ToString())
+        valu_new.Add(index.ToString())
+        valu_old.Add(old_val)
+        valu_new.Add(new_val)
+        Dim old_is_a_note As Boolean = True
+        If SudokuArray(SelectedCell).Font.Name = "Verdana" Then
+            old_is_a_note = False
+        End If
+        valu_old.Add(old_is_a_note.ToString())
+        valu_new.Add(NotesOn.ToString())
+        If undoRedolastindex <> index Then
+            undoRedoStack.Add(New List(Of String)(valu_old))
+        End If
+        undoRedoStack.Add(New List(Of String)(valu_new))
+        undoRedoPointer = undoRedoStack.Count - 1
+        undoRedolastindex = index
+
+        BtnUndo.Enabled = False
+        BtnRedo.Enabled = False
+        If undoRedoPointer > 0 Then
+            BtnUndo.Enabled = True
+        End If
+        If undoRedoPointer < undoRedoStack.Count - 2 Then
+            BtnRedo.Enabled = True
+        End If
+    End Sub
+
 End Class

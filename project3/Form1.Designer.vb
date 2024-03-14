@@ -120,6 +120,8 @@ Partial Class Form1
         Label2 = New Label()
         Label3 = New Label()
         BtnNew = New Button()
+        BtnRedo = New Button()
+        BtnUndo = New Button()
         SuspendLayout()
         ' 
         ' TextBox1
@@ -1179,12 +1181,34 @@ Partial Class Form1
         BtnNew.Text = "New"
         BtnNew.UseVisualStyleBackColor = True
         ' 
+        ' BtnRedo
+        ' 
+        BtnRedo.Location = New Point(1068, 114)
+        BtnRedo.Margin = New Padding(4, 5, 4, 5)
+        BtnRedo.Name = "BtnRedo"
+        BtnRedo.Size = New Size(72, 72)
+        BtnRedo.TabIndex = 98
+        BtnRedo.Text = "Redo"
+        BtnRedo.UseVisualStyleBackColor = True
+        ' 
+        ' BtnUndo
+        ' 
+        BtnUndo.Location = New Point(974, 114)
+        BtnUndo.Margin = New Padding(4, 5, 4, 5)
+        BtnUndo.Name = "BtnUndo"
+        BtnUndo.Size = New Size(72, 72)
+        BtnUndo.TabIndex = 99
+        BtnUndo.Text = "Undo"
+        BtnUndo.UseVisualStyleBackColor = True
+        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(10F, 25F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.AppWorkspace
         ClientSize = New Size(1257, 905)
+        Controls.Add(BtnUndo)
+        Controls.Add(BtnRedo)
         Controls.Add(BtnNew)
         Controls.Add(Label3)
         Controls.Add(Label2)
@@ -1385,5 +1409,7 @@ Partial Class Form1
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents BtnNew As Button
+    Friend WithEvents BtnRedo As Button
+    Friend WithEvents BtnUndo As Button
 
 End Class
